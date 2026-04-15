@@ -12,6 +12,12 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# Environment
+.env
+
+# Prisma generated client
+/generated
+
 # OS
 .DS_Store
 
@@ -54,3 +60,5 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+/generated/prisma
