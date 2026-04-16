@@ -1,6 +1,5 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { Power } from '../enums/power.enum';
-import { Universe } from '../enums/universe.enum';
+import { Power, Universe } from '../../generated/prisma';
 
 export class UpdateHeroDto {
   @ApiPropertyOptional({ example: 'Peter Parker' })
