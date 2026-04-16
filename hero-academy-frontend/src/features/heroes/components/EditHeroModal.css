@@ -1,0 +1,111 @@
+.edit-modal-content {
+  background: #16162a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 28px;
+  width: 90%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+}
+
+.edit-modal-content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #f0f0f5;
+  margin-bottom: 20px;
+}
+
+.readonly-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.readonly-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.readonly-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #6b6b80;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.readonly-value {
+  font-size: 13px;
+  color: #a0a0b0;
+  word-break: break-all;
+}
+
+.readonly-value.status.active {
+  color: #34d399;
+}
+
+.readonly-value.status.inactive {
+  color: #f87171;
+}
+
+.form-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  margin: 4px 0 16px;
+}
+
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-grid label span {
+  font-size: 12px;
+  font-weight: 500;
+  color: #8888a0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-grid input,
+.form-grid select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: #e0e0e6;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-grid input:focus,
+.form-grid select:focus {
+  border-color: #7c3aed;
+}
+
+.form-grid select option {
+  background: #1a1a2e;
+  color: #e0e0e6;
+}
+
+.modal-btn.save {
+  background: linear-gradient(135deg, #7c3aed, #00f0ff);
+  color: #fff;
+}
+
+.modal-btn.save:hover:not(:disabled) {
+  opacity: 0.9;
+}
