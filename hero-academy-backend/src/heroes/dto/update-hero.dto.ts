@@ -1,22 +1,4 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
-import { Power, Universe } from '../../generated/prisma';
+import { PartialType } from '@nestjs/swagger';
+import { CreateHeroDto } from './create-hero.dto';
 
-export class UpdateHeroDto {
-  @ApiPropertyOptional({ example: 'Peter Parker' })
-  name?: string;
-
-  @ApiPropertyOptional({ example: 'Homem-Aranha' })
-  nickname?: string;
-
-  @ApiPropertyOptional({ example: '2001-08-10T00:00:00.000Z' })
-  date_of_birth?: Date;
-
-  @ApiPropertyOptional({ enum: Universe, example: Universe.MARVEL })
-  universe?: Universe;
-
-  @ApiPropertyOptional({ enum: Power, example: Power.LANCAMENTO_DE_TEIAS })
-  main_power?: Power;
-
-  @ApiPropertyOptional({ example: 'https://example.com/spiderman.png' })
-  avatar_url?: string;
-}
+export class UpdateHeroDto extends PartialType(CreateHeroDto) {}
