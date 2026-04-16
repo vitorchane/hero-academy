@@ -11,3 +11,65 @@ generator client {
 datasource db {
   provider = "mysql"
 }
+
+enum Universe {
+  MARVEL
+  DC
+  STAR_WARS
+  SENHOR_DOS_ANEIS
+  HARRY_POTTER
+  DRAGON_BALL
+  NARUTO
+  ONE_PIECE
+  BEN_10
+  AVATAR
+  DISNEY
+  TRANSFORMERS
+  THUNDERCATS
+}
+
+enum Power {
+  SUPER_FORCA
+  SUPER_VELOCIDADE
+  VOO
+  TELEPATIA
+  TELECINESE
+  MAGIA
+  FATOR_DE_CURA
+  SUPER_INTELIGENCIA
+  AGILIDADE
+  CONTROLE_ELEMENTAL
+  METAMORFOSE
+  INVISIBILIDADE
+  MANIPULACAO_DO_TEMPO
+  PROJECAO_DE_ENERGIA
+  ARTES_MARCIAIS
+  LANCAMENTO_DE_TEIAS
+  VISAO_DE_LASER
+  MAGNETISMO
+  ELASTICIDADE
+  DUPLICACAO
+  TECNOPATIA
+  NECROMANCIA
+  CONTROLE_GRAVITACIONAL
+  DISTORCAO_DA_REALIDADE
+  PODER_COSMICO
+  NINJUTSU
+  GENJUTSU
+  ALQUIMIA
+}
+
+model Hero {
+  id            String   @id @default(uuid()) @db.VarChar(36)
+  name          String   @db.VarChar(255)
+  nickname      String   @db.VarChar(255)
+  date_of_birth DateTime @db.DateTime()
+  universe      Universe
+  main_power    Power
+  avatar_url    String   @db.VarChar(500)
+  is_active     Boolean  @default(true)
+  created_at    DateTime @default(now()) @db.DateTime()
+  updated_at    DateTime @updatedAt @db.DateTime()
+
+  @@map("heroes")
+}
