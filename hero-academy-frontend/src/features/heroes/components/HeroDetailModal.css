@@ -1,0 +1,151 @@
+.detail-modal-content {
+  background: #16162a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 0;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.detail-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.detail-close:hover {
+  background: rgba(124, 58, 237, 0.8);
+}
+
+.detail-body {
+  display: flex;
+}
+
+.detail-hero-avatar {
+  width: 220px;
+  min-height: 280px;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.detail-hero-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detail-info {
+  flex: 1;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.detail-hero-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #f0f0f5;
+  margin: 0;
+}
+
+.detail-real-name {
+  font-size: 13px;
+  color: #8888a0;
+  margin-top: 2px;
+}
+
+.detail-status {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-status.active {
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.1);
+}
+
+.detail-status.inactive {
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.1);
+}
+
+.detail-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detail-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #6b6b80;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-value {
+  font-size: 13px;
+  color: #d0d0e0;
+}
+
+.detail-value.universe {
+  color: #00f0ff;
+  background: rgba(0, 240, 255, 0.08);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.detail-value.power {
+  color: #c084fc;
+  background: rgba(192, 132, 252, 0.08);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+@media (max-width: 500px) {
+  .detail-body {
+    flex-direction: column;
+  }
+
+  .detail-hero-avatar {
+    width: 100%;
+    min-height: auto;
+    max-height: 200px;
+  }
+}
