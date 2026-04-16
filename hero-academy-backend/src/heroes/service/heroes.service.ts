@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateHeroDto } from '../dto/create-hero.dto';
 import { UpdateHeroDto } from '../dto/update-hero.dto';
 import { HeroesRepository } from '../repository/heroes.repository';
@@ -13,8 +13,18 @@ export class HeroesService {
     return this.heroesRepository.create(createHeroDto);
   }
 
-  async findAll(): Promise<Hero[]> {
-    return this.heroesRepository.findAll();
+  async findAll(page = 1, limit = 10, search?: string) {
+    const { data, total } = await this.heroesRepository.findAll(page, limit, search);
+
+    return {
+      data,
+      meta: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
   }
 
   async findById(id: UUID): Promise<Hero> {
@@ -28,7 +38,12 @@ export class HeroesService {
   }
 
   async update(id: UUID, updateHeroDto: UpdateHeroDto): Promise<Hero> {
-    await this.findById(id);
+    const hero = await this.findById(id);
+
+    if (!hero.is_active) {
+      throw new BadRequestException('Não é possível editar um herói desativado');
+    }
+
     return this.heroesRepository.update(id, updateHeroDto);
   }
 

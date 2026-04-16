@@ -13,10 +13,29 @@ export class HeroesRepository {
     return this.prisma.hero.create({ data });
   }
 
-  async findAll(): Promise<Hero[]> {
-    return this.prisma.hero.findMany({
-      orderBy: { created_at: 'desc' },
-    });
+  async findAll(page: number, limit: number, search?: string): Promise<{ data: Hero[]; total: number }> {
+    const skip = (page - 1) * limit;
+
+    const where = search
+      ? {
+          OR: [
+            { name: { contains: search, mode: 'insensitive' as const } },
+            { nickname: { contains: search, mode: 'insensitive' as const } },
+          ],
+        }
+      : {};
+
+    const [data, total] = await this.prisma.$transaction([
+      this.prisma.hero.findMany({
+        where,
+        orderBy: { created_at: 'desc' },
+        skip,
+        take: limit,
+      }),
+      this.prisma.hero.count({ where }),
+    ]);
+
+    return { data, total };
   }
 
   async findById(id: UUID): Promise<Hero | null> {

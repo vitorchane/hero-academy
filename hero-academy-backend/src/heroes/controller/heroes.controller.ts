@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateHeroDto } from '../dto/create-hero.dto';
@@ -36,8 +37,12 @@ export class HeroesController {
 
   @Get()
   @ApiFindAll()
-  findAll() {
-    return this.heroesService.findAll();
+  findAll(
+    @Query('page') page = 1,
+    @Query('limit') limit = 10,
+    @Query('search') search?: string,
+  ) {
+    return this.heroesService.findAll(+page, +limit, search);
   }
 
   @Get(':id')
