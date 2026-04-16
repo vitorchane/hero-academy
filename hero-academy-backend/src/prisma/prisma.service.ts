@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
+import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { PrismaMariaDb } from '@prisma/adapter-mariadb';
 import { PrismaClient } from '../generated/prisma/client';
 
@@ -21,6 +21,10 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
 
   get hero() {
     return this.client.hero;
+  }
+
+  get $transaction() {
+    return this.client.$transaction.bind(this.client);
   }
 
   async onModuleInit() {
