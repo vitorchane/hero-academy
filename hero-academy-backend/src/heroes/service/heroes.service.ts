@@ -3,7 +3,7 @@ import { CreateHeroDto } from '../dto/create-hero.dto';
 import { UpdateHeroDto } from '../dto/update-hero.dto';
 import { HeroesRepository } from '../repository/heroes.repository';
 import { UUID } from 'crypto';
-import { Hero } from 'generated/prisma/client';
+import { Hero } from '../../generated/prisma/client';
 
 @Injectable()
 export class HeroesService {

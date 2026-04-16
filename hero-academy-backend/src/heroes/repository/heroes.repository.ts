@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateHeroDto } from '../dto/create-hero.dto';
 import { UpdateHeroDto } from '../dto/update-hero.dto';
-import { Hero } from 'generated/prisma/client';
+import { Hero } from '../../generated/prisma/client';
 import { UUID } from 'crypto';
 
 @Injectable()
