@@ -1,18 +1,14 @@
-import { useCallback, useState } from "react";
-import type { ToastData } from "../../../components/ui/Toast";
-import { ToastContainer } from "../../../components/ui/Toast";
-import { createHero, deleteHero, updateHero } from "../api/heroesApi";
+import { ToastContainer } from "../../../components/ui/ui/Toast";
 import { ConfirmModal } from "../components/ConfirmModal";
 import { CreateHeroModal } from "../components/CreateHeroModal";
 import { EditHeroModal } from "../components/EditHeroModal";
 import { HeroCard } from "../components/HeroCard";
 import { HeroDetailModal } from "../components/HeroDetailModal";
 import { Pagination } from "../components/Pagination";
+import { useHeroActions } from "../hooks/useHeroActions";
 import { useHeroes } from "../hooks/useHeroes";
-import type { Hero } from "../types/hero";
+import { useToast } from "../hooks/useToast";
 import "./HeroListPage.css";
-
-let toastId = 0;
 
 export function HeroListPage() {
   const {
@@ -26,86 +22,30 @@ export function HeroListPage() {
     search,
     setSearch,
   } = useHeroes();
-  const [showCreate, setShowCreate] = useState(false);
-  const [detailHero, setDetailHero] = useState<Hero | null>(null);
-  const [editHero, setEditHero] = useState<Hero | null>(null);
-  const [deleteTarget, setDeleteTarget] = useState<Hero | null>(null);
-  const [activateTarget, setActivateTarget] = useState<Hero | null>(null);
-  const [actionLoading, setActionLoading] = useState(false);
-  const [toasts, setToasts] = useState<ToastData[]>([]);
 
-  const addToast = (message: string, type: "success" | "error") => {
-    setToasts((prev) => [...prev, { id: ++toastId, message, type }]);
-  };
+  const { toasts, addToast, removeToast } = useToast();
 
-  const removeToast = useCallback((id: number) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
-  }, []);
-
-  const handleDelete = async () => {
-    if (!deleteTarget) return;
-    setActionLoading(true);
-    try {
-      await deleteHero(deleteTarget.id);
-      setDeleteTarget(null);
-      addToast(
-        `"${deleteTarget.nickname}" foi excluído com sucesso.`,
-        "success",
-      );
-      refresh();
-    } catch {
-      addToast("Erro ao excluir herói. Tente novamente.", "error");
-    } finally {
-      setActionLoading(false);
-    }
-  };
-
-  const handleActivate = async () => {
-    if (!activateTarget) return;
-    setActionLoading(true);
-    try {
-      await updateHero(activateTarget.id, { is_active: true });
-      setActivateTarget(null);
-      addToast(
-        `"${activateTarget.nickname}" foi reativado com sucesso.`,
-        "success",
-      );
-      refresh();
-    } catch {
-      addToast("Erro ao ativar herói. Tente novamente.", "error");
-    } finally {
-      setActionLoading(false);
-    }
-  };
-
-  const handleEditSave = async (data: Partial<Hero>) => {
-    if (!editHero) return;
-    setActionLoading(true);
-    try {
-      await updateHero(editHero.id, data);
-      setEditHero(null);
-      addToast(`"${editHero.nickname}" foi atualizado com sucesso.`, "success");
-      refresh();
-    } catch {
-      addToast("Erro ao salvar alterações. Tente novamente.", "error");
-    } finally {
-      setActionLoading(false);
-    }
-  };
-
-  const handleCreate = async (data: Parameters<typeof createHero>[0]) => {
-    setActionLoading(true);
-    try {
-      await createHero(data);
-      setShowCreate(false);
-      addToast("Herói criado com sucesso!", "success");
-      refresh();
-    } catch {
-      addToast("Erro ao criar herói. Tente novamente.", "error");
-    } finally {
-      setActionLoading(false);
-    }
-  };
+  const {
+    showCreate,
+    setShowCreate,
+    detailHero,
+    setDetailHero,
+    editHero,
+    setEditHero,
+    deleteTarget,
+    setDeleteTarget,
+    activateTarget,
+    setActivateTarget,
+    actionLoading,
+    handleDelete,
+    handleActivate,
+    handleEditSave,
+    handleCreate,
+  } = useHeroActions({
+    onSuccess: (msg) => addToast(msg, "success"),
+    onError: (msg) => addToast(msg, "error"),
+    refresh,
+  });
 
   if (initialLoading) {
     return (
