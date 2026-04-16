@@ -1,19 +1,24 @@
 import { Injectable } from '@nestjs/common';
+import { UUID } from 'crypto';
+import { Hero } from '../../generated/prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 import { CreateHeroDto } from '../dto/create-hero.dto';
 import { UpdateHeroDto } from '../dto/update-hero.dto';
-import { Hero } from '../../generated/prisma/client';
-import { UUID } from 'crypto';
+import { IHeroesRepository } from './heroes-repository.interface';
 
 @Injectable()
-export class HeroesRepository {
+export class HeroesRepository implements IHeroesRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: CreateHeroDto): Promise<Hero> {
     return this.prisma.hero.create({ data });
   }
 
-  async findAll(page: number, limit: number, search?: string): Promise<{ data: Hero[]; total: number }> {
+  async findAll(
+    page: number,
+    limit: number,
+    search?: string,
+  ): Promise<{ data: Hero[]; total: number }> {
     const skip = (page - 1) * limit;
 
     const where = search

@@ -1,20 +1,35 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { CreateHeroDto } from '../dto/create-hero.dto';
-import { UpdateHeroDto } from '../dto/update-hero.dto';
-import { HeroesRepository } from '../repository/heroes.repository';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { UUID } from 'crypto';
 import { Hero } from '../../generated/prisma/client';
+import { CreateHeroDto } from '../dto/create-hero.dto';
+import { UpdateHeroDto } from '../dto/update-hero.dto';
+import {
+  HEROES_REPOSITORY,
+  IHeroesRepository,
+} from '../repository/heroes-repository.interface';
 
 @Injectable()
 export class HeroesService {
-  constructor(private readonly heroesRepository: HeroesRepository) {}
+  constructor(
+    @Inject(HEROES_REPOSITORY)
+    private readonly heroesRepository: IHeroesRepository,
+  ) {}
 
   async create(createHeroDto: CreateHeroDto): Promise<Hero> {
     return this.heroesRepository.create(createHeroDto);
   }
 
   async findAll(page = 1, limit = 10, search?: string) {
-    const { data, total } = await this.heroesRepository.findAll(page, limit, search);
+    const { data, total } = await this.heroesRepository.findAll(
+      page,
+      limit,
+      search,
+    );
 
     return {
       data,
@@ -41,7 +56,9 @@ export class HeroesService {
     const hero = await this.findById(id);
 
     if (!hero.is_active) {
-      throw new BadRequestException('Não é possível editar um herói desativado');
+      throw new BadRequestException(
+        'Não é possível editar um herói desativado',
+      );
     }
 
     return this.heroesRepository.update(id, updateHeroDto);
