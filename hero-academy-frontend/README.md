@@ -1,73 +1,109 @@
-# React + TypeScript + Vite
+# Hero Academy — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interface web para o gerenciamento de heróis, construída com React, TypeScript e Vite.
 
-Currently, two official plugins are available:
+## Sobre o projeto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+O frontend do Hero Academy é uma SPA que consome a API do backend para listar, criar, editar, visualizar e excluir heróis. A interface apresenta os heróis em cards com avatares, suporta busca por nome/nickname, paginação e ações rápidas via menu de contexto.
 
-## React Compiler
+Principais funcionalidades:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Grid de cards com avatar dos heróis
+- Busca em tempo real (com debounce)
+- Paginação
+- Modal de criação de herói com formulário completo
+- Modal de edição (apenas para heróis ativos)
+- Modal de detalhes com todas as informações
+- Ativação/desativação de heróis
+- Exclusão com confirmação
+- Toasts de feedback (sucesso/erro)
+- Suporte a 13 universos (Marvel, DC, Dragon Ball, Naruto, etc.) e 28 poderes
 
-## Expanding the ESLint configuration
+## Tecnologias
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React 19** — biblioteca de UI
+- **TypeScript 6** — tipagem estática
+- **Vite 8** — bundler e dev server
+- **Vitest** — testes unitários
+- **Testing Library** — testes de componentes
+- **Nginx** — servidor de produção (via Docker)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Pré-requisitos
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Node.js 22+
+- npm
+- Backend rodando em `http://localhost:3000` (ou via Docker Compose)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Instalação
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Rodando o projeto
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# desenvolvimento (com hot reload e proxy para o backend)
+npm run dev
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+A aplicação fica disponível em `http://localhost:5173`. As chamadas para `/api` são automaticamente redirecionadas ao backend na porta 3000.
+
+## Testes
+
+```bash
+# rodar todos os testes
+npm test
+
+# modo watch
+npm run test:watch
+```
+
+Os testes cobrem:
+
+- **heroesApi** — chamadas HTTP (fetch, delete, update, create) com mock de `fetch`
+- **HeroCard** — renderização, click, badge de inativo
+- **Pagination** — botões de página, navegação, estados desabilitados
+- **ConfirmModal** — renderização, callbacks, estado de loading
+- **ActionMenu** — abertura do dropdown, opções condicionais, callbacks
+- **Toast** — renderização, ícones, auto-remoção por timeout
+
+## Estrutura do projeto
+
+```
+src/
+├── components/
+│   ├── layout/           # Header
+│   └── ui/               # Toast (componente reutilizável)
+├── features/
+│   └── heroes/
+│       ├── api/          # Chamadas à API (fetch)
+│       ├── components/   # HeroCard, Pagination, Modais, ActionMenu
+│       ├── constants/    # Opções de universo e poder (labels)
+│       ├── hooks/        # useHeroes, useHeroActions, useToast
+│       ├── pages/        # HeroListPage (página principal)
+│       └── types/        # Tipagens (Hero, HeroesMeta, etc.)
+├── App.tsx
+└── main.tsx
+```
+
+## Build para produção
+
+```bash
+npm run build
+```
+
+Os arquivos estáticos são gerados em `dist/`.
+
+## Docker
+
+O projeto inclui um Dockerfile multi-stage que faz o build com Node e serve com Nginx. O `nginx.conf` já está configurado para:
+
+- Redirecionar rotas do SPA para `index.html`
+- Fazer proxy reverso de `/api/` para o backend
+
+Para rodar tudo junto, use o `docker-compose.yml` na raiz do monorepo:
+
+```bash
+docker compose up --build
 ```
