@@ -55,7 +55,11 @@ export class HeroesService {
   async update(id: UUID, updateHeroDto: UpdateHeroDto): Promise<Hero> {
     const hero = await this.findById(id);
 
-    if (!hero.is_active) {
+    const isOnlyActivating =
+      updateHeroDto.is_active === true &&
+      Object.keys(updateHeroDto).length === 1;
+
+    if (!hero.is_active && !isOnlyActivating) {
       throw new BadRequestException(
         'Não é possível editar um herói desativado',
       );

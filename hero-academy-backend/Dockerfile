@@ -24,6 +24,7 @@ RUN npm install --omit=dev
 
 # Copy built app and generated Prisma client
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/src/generated ./dist/generated
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
 
