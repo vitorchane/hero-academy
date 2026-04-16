@@ -1,4 +1,10 @@
 import { useState } from "react";
+import {
+  POWER_OPTIONS,
+  UNIVERSE_OPTIONS,
+  getPowerLabel,
+  getUniverseLabel,
+} from "../constants/heroOptions";
 import type { Hero } from "../types/hero";
 import "./EditHeroModal.css";
 
@@ -8,53 +14,6 @@ interface Props {
   onCancel: () => void;
   loading?: boolean;
 }
-
-const universeOptions = [
-  "MARVEL",
-  "DC",
-  "STAR_WARS",
-  "SENHOR_DOS_ANEIS",
-  "HARRY_POTTER",
-  "DRAGON_BALL",
-  "NARUTO",
-  "ONE_PIECE",
-  "BEN_10",
-  "AVATAR",
-  "DISNEY",
-  "TRANSFORMERS",
-  "THUNDERCATS",
-];
-
-const powerOptions = [
-  "SUPER_FORCA",
-  "SUPER_VELOCIDADE",
-  "VOO",
-  "TELEPATIA",
-  "TELECINESE",
-  "MAGIA",
-  "FATOR_DE_CURA",
-  "SUPER_INTELIGENCIA",
-  "AGILIDADE",
-  "CONTROLE_ELEMENTAL",
-  "METAMORFOSE",
-  "INVISIBILIDADE",
-  "MANIPULACAO_DO_TEMPO",
-  "PROJECAO_DE_ENERGIA",
-  "ARTES_MARCIAIS",
-  "LANCAMENTO_DE_TEIAS",
-  "VISAO_DE_LASER",
-  "MAGNETISMO",
-  "ELASTICIDADE",
-  "DUPLICACAO",
-  "TECNOPATIA",
-  "NECROMANCIA",
-  "CONTROLE_GRAVITACIONAL",
-  "DISTORCAO_DA_REALIDADE",
-  "PODER_COSMICO",
-  "NINJUTSU",
-  "GENJUTSU",
-  "ALQUIMIA",
-];
 
 export function EditHeroModal({ hero, onSave, onCancel, loading }: Props) {
   const [form, setForm] = useState({
@@ -144,9 +103,9 @@ export function EditHeroModal({ hero, onSave, onCancel, loading }: Props) {
                 value={form.universe}
                 onChange={(e) => handleChange("universe", e.target.value)}
               >
-                {universeOptions.map((u) => (
+                {UNIVERSE_OPTIONS.map((u) => (
                   <option key={u} value={u}>
-                    {u.replace(/_/g, " ")}
+                    {getUniverseLabel(u)}
                   </option>
                 ))}
               </select>
@@ -157,9 +116,9 @@ export function EditHeroModal({ hero, onSave, onCancel, loading }: Props) {
                 value={form.main_power}
                 onChange={(e) => handleChange("main_power", e.target.value)}
               >
-                {powerOptions.map((p) => (
+                {POWER_OPTIONS.map((p) => (
                   <option key={p} value={p}>
-                    {p.replace(/_/g, " ")}
+                    {getPowerLabel(p)}
                   </option>
                 ))}
               </select>
