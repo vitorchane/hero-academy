@@ -5,6 +5,7 @@ import {
   IsEnum,
   IsNotEmpty,
   IsString,
+  IsUrl,
 } from 'class-validator';
 import { Power, Universe } from '../../generated/prisma/enums';
 
@@ -36,6 +37,7 @@ export class CreateHeroDto {
 
   @ApiProperty({ example: 'https://example.com/spiderman.png' })
   @IsNotEmpty()
+  @IsUrl()
   avatar_url: string;
 
   @ApiProperty({ example: true })

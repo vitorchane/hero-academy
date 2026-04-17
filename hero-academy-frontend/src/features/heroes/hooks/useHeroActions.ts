@@ -54,8 +54,9 @@ export function useHeroActions({
     if (!editHero) return;
     setActionLoading(true);
     try {
-      await updateHero(editHero.id, data);
+      const updatedHero = await updateHero(editHero.id, data);
       setEditHero(null);
+      setDetailHero((prev) => (prev?.id === updatedHero.id ? updatedHero : prev));
       onSuccess(`"${editHero.nickname}" foi atualizado com sucesso.`);
       refresh();
     } catch {
